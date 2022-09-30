@@ -1,0 +1,1 @@
+Automated tests with jest can be added to this folder.

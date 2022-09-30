@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.m-files.com/schemas/appdef-client-v4.xsd">
+	<guid>222C01FB-15B0-4DFF-8573-85DF7C85C4CF</guid>
+	<!-- #TEMPLATED_TODO -->
+	<name>ShellUI - React / TypeScript Sample</name>
+	<!-- #TEMPLATED_TODO -->
+	<version>0.0.0.1</version>
+	<!-- #TEMPLATED_TODO -->
+	<description>M-Files ShellUI - React / TypeScript sample base application.</description>
+	<publisher>M-Files</publisher>
+	<copyright>(c) M-Files 2022</copyright>
+	<required-mfiles-version>20.12.0.0</required-mfiles-version>
+	<optional>true</optional>
+	<enabled-by-default>true</enabled-by-default>
+	<platforms>
+		<platform>Desktop</platform>
+		<platform>Web</platform>
+	</platforms>
+	<modules>
+		<module environment="shellui" fast-browsing-compatible="true">
+			<file>redist\json2.js</file>
+			<file>redist\polyfills.js</file>
+			<file>redist\mfilespolyfills.js</file>
+			<file>redist\es6-promise.js</file>
+			<file>redist\before-bundle.js</file>
+			<file>shellui.bundle.js</file>
+			<file>redist\after-bundle.js</file>
+		</module>
+	</modules>
+	<dashboards>
+		<dashboard id="base-dashboard">
+			<content>Base.dashboard.html</content>
+			<allow-selection>true</allow-selection>
+		</dashboard>
+	</dashboards>
+</application>

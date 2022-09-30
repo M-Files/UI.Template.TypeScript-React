@@ -1,0 +1,34 @@
+{
+  "Comment": "Sample for install-application.user.json - to be used with install-application.ps1",
+  "VaultConnections": [
+    {
+      "connectionId": "LOCAL - Test Vault 1",
+      "networkAddress": "localhost",
+      "protocolSequence": "ncacn_ip_tcp",
+      "endpoint": 2266,
+      "vaultName": "Test Vault 1",
+      "userName": "",
+      "password": "",
+      "domain": "",
+      "authType": 1,
+      "installGroups": [
+        "default",
+        "local"
+      ]
+    },
+    {
+      "connectionId": "LOCAL - Test Vault 2",
+      "networkAddress": "localhost",
+      "protocolSequence": "ncacn_ip_tcp",
+      "endpoint": 2266,
+      "vaultName": "Test Vault 2",
+      "userName": "",
+      "password": "",
+      "domain": "",
+      "authType": 1,
+      "installGroups": [
+        "local"
+      ]
+    }
+  ]
+}

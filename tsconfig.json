@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		// Set outDir to avoid TypeScript error "Cannot write file ... because it would overwrite input file."
+		// See https://stackoverflow.com/q/42609768/1288184
+		"outDir": "lib",
+		"strict": true,
+		// "noImplicitAny": true,
+		// "strictNullChecks": true,
+		// "noImplicitThis": true,
+		// "noImplicitReturns": true,
+		// "noUnusedLocals": false,
+		// "noUnusedParameters": false,
+		// "strictFunctionTypes": true,
+		// "strictPropertyInitialization": true,
+		"noEmitOnError": false,
+		"removeComments": false,
+		"sourceMap": true,
+		"module": "es6",
+		"target": "es5",
+		"jsx": "react",
+		"allowJs": true,
+		"moduleResolution": "node",
+		"lib": [
+			"dom",
+			"scripthost",
+			"es2015.promise",
+			"es2015"
+		]
+	},
+	"include": [
+		"./src/**/*"
+	]
+}
