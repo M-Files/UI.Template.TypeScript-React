@@ -5,7 +5,7 @@ param(
 
 # Application details
 $appFilePath = "package\ShellUI_ReactUX_App.mfappx" #TEMPLATED_TODO - Change this to your own packaged app name.
-$appGuid = "21cb8d15-da94-4f1c-939c-e4b9e54457be" #TEMPLATED_TODO - Generate a new GUID.
+$appGuid = "21cb8d15-da94-4f1c-939c-e4b9e54457be" #TEMPLATED_TODO - Use the newly generated GUID from appdef.xml.
 
 # Target vault
 $vaultName = ""

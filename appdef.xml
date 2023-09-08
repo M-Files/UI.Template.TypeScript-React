@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.m-files.com/schemas/appdef-client-v4.xsd">
+	<!-- #TEMPLATED_TODO: generate a new GUID -->
 	<guid>222C01FB-15B0-4DFF-8573-85DF7C85C4CF</guid>
 	<!-- #TEMPLATED_TODO -->
 	<name>ShellUI - React / TypeScript Sample</name>
@@ -22,6 +23,7 @@
 			<file>redist\polyfills.js</file>
 			<file>redist\mfilespolyfills.js</file>
 			<file>redist\es6-promise.js</file>
+			<file>redist\console-shellui.js</file>
 			<file>redist\before-bundle.js</file>
 			<file>shellui.bundle.js</file>
 			<file>redist\after-bundle.js</file>

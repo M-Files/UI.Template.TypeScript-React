@@ -50,6 +50,7 @@
 		"core-js": "^3.25.3",
 		"es6-promise": "^4.2.8",
 		"es6-shim": "^0.35.6",
+		"eslint": "^8.29.0",
 		"gulp-if": "^3.0.0",
 		"json2": "^0.4.0",
 		"replace-bundle-webpack-plugin": "^1.0.0"

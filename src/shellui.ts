@@ -4,12 +4,14 @@ import { getConfig } from "./core/Configuration";
 import { DashboardLauncher } from "./core/DashboardLauncher";
 import { ICustomDashboardData } from "./core/interface/ICustomDashboardData";
 
+declare let console: IMFilesDesktopConsole;
 
 /**
  * Entry point for shellUI module.
  * @param shellUI - The new shellUI object.
  */
 ShellUIModule.OnNewShellUI = (shellUI: MFilesUI.IShellUI) => {
+	console.initialize(shellUI, "Sample");
 	// #TEMPLATED_TODO - Dashboard ID.
 	// The dashboard tsx file(s) should be in the form "{dashboardId}.dashboard.tsx" (i.e. in this sample "Sample.dashboard.tsx")
 	// See function loadDashboard() on Base.dashboard.ts for implementation details.

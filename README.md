@@ -39,6 +39,25 @@ This application uses `gulp`, `webpack` and `TypeScript` transpilers for buildin
 
 Gulp has predefined tasks for most developer needs.
 
+__NOTE:__ If using Node.js version 17 or newer, you might run into the following error:
+
+`Error: error:0308010C:digital envelope routines::unsupported`
+
+This comes from the Webpack v4 we are forced to use (see below). This _should_ not occur if using gulp since we are redefining `crypto.createHash` in webpack configuration files.
+If it still occurs however, you can either:
+- Downgrade to Node.js 16
+- Declare the following environment variable: `NODE_OPTIONS=--openssl-legacy-provider`
+- Create a VS Code Workspace for the project and add the following lines to the `code-workspace` file:
+
+      {
+        "settings": {
+          "terminal.integrated.env.windows": {
+            "NODE_OPTIONS": "--openssl-legacy-provider"
+          }
+        }
+      }
+For more info, see: https://stackoverflow.com/q/69692842/1288184
+
 #### Supported Gulp Commands
 
 **Watch**: Running gulp without any arguments will build the application, and monitor the source files for changes.  This will result in an automatic rebuild of the application when necessary.
@@ -86,7 +105,7 @@ $ gulp package
 The commands below will: clone the repo / install dependencies / package the mfappx / open the package directory in explorer.
 
 ```bash
-$ git clone https://git.motivesys.com/ux-apps/shellui-react-ts-base.git
+$ git clone https://github.com/M-Files/UI.Template.TypeScript-React.git
 $ cd shellui-react-ts-base
 $ npm install
 $ gulp package
@@ -114,6 +133,16 @@ $ mklink /J "%ProgramFiles%\M-Files\%MfilesVersion%\Client\Apps\sysapps\your_app
 
 **Note:** Please be sure to replace the `your_app_name` with your actual app name and ensure the proper path to the `dist` folder is used as well.
 
+
+## Limitations
+
+- In M-Files Desktop __application modules__ (shellUI, vaultUI) the flavor of JavaScript is JScript and it is run in the Windows Scripting Host (WSH) environment
+- In M-Files Desktop __dashboards__ the JavaScript is run with the Internet Explorer JavaScript engine
+- Both WSH and Internet Explorer provide a rather old version of JavaScript, this leads to the following limitations
+  - You'll need to use polyfills, shims and shams where needed
+  - Webpack 4 is the latest version of webpack that still makes bundles that work in M-Files Desktop - _do not update to Webpack 5_
+  - If using MUI (Material UI), use __[Material-UI v4](https://v4.mui.com/)__ as v5 does not work correctly
+  - Other UI component libraries might not work correctly (Bootstrap for example)
 
 
 ## Linting & typing errors
