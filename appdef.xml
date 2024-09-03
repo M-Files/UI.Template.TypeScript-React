@@ -19,10 +19,6 @@
 	</platforms>
 	<modules>
 		<module environment="shellui" fast-browsing-compatible="true">
-			<file>redist\json2.js</file>
-			<file>redist\polyfills.js</file>
-			<file>redist\mfilespolyfills.js</file>
-			<file>redist\es6-promise.js</file>
 			<file>redist\console-shellui.js</file>
 			<file>redist\before-bundle.js</file>
 			<file>shellui.bundle.js</file>

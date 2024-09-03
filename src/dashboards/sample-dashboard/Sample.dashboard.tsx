@@ -1,4 +1,3 @@
-import 'core-js/actual'; // In MFDesktop needed at least to polyfill Symbol used by react
 import "MFiles";
 import * as React from "react";
 import { HandleNewDashboard } from "../HandleNewDashboard";

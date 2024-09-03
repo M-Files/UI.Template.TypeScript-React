@@ -7,23 +7,25 @@ const zipPackageName = "ShellUI_ReactUX_App.zip";
  * since it would not make sense to run them directly.
  * For example build-install consists of tasks buildZip and install.
  * If you want to have those tasks directly available just uncomment the lines starting with:
- * exports.buildZip = 
+ * exports.buildZip =
  * etc.
  */
 
 // Includes.
-const gulp = require("gulp");
-const log = require("fancy-log");
-const plgerror = require("plugin-error");
-const del = require("del");
-const glob = require("glob");
-const rename = require("gulp-rename");
-const newer = require("gulp-newer");
-const gulpzip = require("gulp-zip");
-const webp = require("webpack");
-const eslint = require("gulp-eslint");
-const { series, parallel } = require("gulp");
-var gulpif = require('gulp-if');
+import log from "fancy-log";
+import plgerror from "plugin-error";
+import { deleteSync } from "del";
+import glob from "glob";
+import rename from "gulp-rename";
+import newer from "gulp-newer";
+import gulpzip from "gulp-zip";
+import webp from "webpack";
+import eslint from "gulp-eslint";
+import gulp from "gulp";
+const { series, parallel } = gulp;
+import gulpif from 'gulp-if';
+
+import webpackConfig from "./webpack.config.gulp.js";
 
 // Common globs.
 const dashboardGlob = "./src/**/*.html";
@@ -34,17 +36,17 @@ const appDefGlob = "appdef.xml";
 
 /**
  * --------------------------- Task logic & functions ---------------------------
- * 
+ *
  * Tasks could be exported in the function definitions also: exports.myTask = () => { ... }
  * this would prevent us from freely sorting the tasks however.
  */
 
 function watch(cb) {
 	// Watch for changes to static resources.
-	gulp.watch([dashboardGlob, redistGlob, appDefGlob], staticWatchTriggeredFunction);
+	gulp.watch([dashboardGlob, redistGlob, appDefGlob], copyStaticInstall);
 
 	// Watch for changes to bundled resources.
-	gulp.watch([scriptGlob, styleGlob], buildWatchTriggeredFunction);
+	gulp.watch([scriptGlob, styleGlob], buildinstall);
 
 	cb();
 }
@@ -52,7 +54,7 @@ function watch(cb) {
 function clean(cb) {
 
 	// Delete dist folder contents.
-	del.sync("dist/*");
+	deleteSync("dist/*");
 	cb();
 }
 
@@ -83,7 +85,6 @@ copyAppdef.displayName = "copy-appdef";
 
 function webpack(cb) {
 	// Load the default config template.
-	let webpackConfig = require("./webpack.config.gulp.js");
 
 	// Resolve the entries to be processed.
 	webpackConfig.entry = getWebpackEntries();
@@ -131,11 +132,11 @@ buildZip.displayName = "build-zip";
  * Alternative to PowerShell would be to use the win32ole module
  * https://helloacm.com/using-com-object-in-nodejs/
  */
-const exec = require("child_process").exec;
+import { exec } from "child_process";
 function install(cb) {
 	exec(
 		"Powershell.exe -executionpolicy remotesigned -File install-application.ps1",
-		function (err, stdout, stderr) {
+		function(err, stdout, stderr) {
 			stdout.split('\n').forEach(ln => log(ln));
 			cb(stderr);
 		}
@@ -211,97 +212,55 @@ const runLint = (fix, cb) => {
 /**
  * Builds the app then watch for changes.
  */
-exports.default = series(build, watch);
+const defaultTask = series(buildinstall, watch);
 
-// Change to this if working with UIX that needs to be installed (namely M-Files Web)
-// exports.default = series(buildinstall, watch);
+export {
+	defaultTask as default,
 
-/**
- * Creates the package and installs it to the vault
- */
-exports.buildinstall = buildinstall;
+	// Creates the package and installs it to the vault
+	buildinstall,
 
-/**
- * Watches for changes and builds parts as needed.
- */
-exports.watch = watch;
-const buildWatchTriggeredFunction = webpack;
-const staticWatchTriggeredFunction = copyStatic;
+	// Watches for changes and builds parts as needed.
+	watch,
 
-// Use these values with watch if working with UIX that needs to be installed (namely M-Files Web)
-// const buildWatchTriggeredFunction = buildinstall;
-// const staticWatchTriggeredFunction = copyStaticInstall;
+	// Copies static assets to dist folder.
+	copyStatic,
 
-/**
- * Copies static assets to dist folder.
- */
-// exports.copyStatic = copyStatic;
+	// Copies the appdef file into the dist folder.
+	// copyAppdef,
 
-/**
- * Creates a build in the dist folder, and then zips the contents
- * and places it at "package/<package_name>.mfappx"
- */
-// exports.buildZip = buildZip;
+	// Copies html files to the dist folder.
+	// copyDashboards,
 
-/**
- * Copies the appdef file into the dist folder.
- */
-// exports.copyAppdef = copyAppdef;
+	// Copies the redist folder into the dist folder.
+	// copyRedist,
 
-/**
- * Copies html files to the dist folder.
- */
-// exports.copyDashboards = copyDashboards;
+	clean,
 
-/**
- * Copies the redist folder into the dist folder.
- */
-// exports.copyRedist = copyRedist;
+	// Clean & build. Name this just build since usually we don't want a dirty build.
+	build,
 
-/**
- * Installs the package to the vault.
- */
-// exports.install = install;
+	// Creates a build in the dist folder, and then zips the contents
+	// and places it at "package/<package_name>.mfappx"
+	// buildZip,
 
-/**
- * Copies static assets and generate bundles in dist folder.
- * Does not include cleaning.
- */
-// exports.dirtybuild = dirtybuild;
+	// Bundles scripts and places them in the dist folder.
+	webpack,
 
-/**
- * Deletes all contents in the dist folder.
- * Note: You may need to kill explorer to release files.
- */
-exports.clean = clean;
+	// Runs tslint against all ts and tsx files in src.
+	lint,
 
-/**
- * Clean & build.
- * Name this just build since usually we don't want a dirty build.
- */
-exports.build = build;
+	// Runs tslint against all ts and tsx files in src and fixes the errors if possible.
+	lintfix,
 
-/**
- * Creates a zip from the dist/ folder contents.
- */
-// exports.zip = zip;
+	// Installs the package to the vault.
+	install,
 
-/**
- * Creates the zip and installs
- */
-// exports.zipInstall = zipInstall;
+	// Copies static assets and generate bundles in dist folder.
+	// Does not include cleaning.
+	// dirtybuild,
 
-/**
- * Bundles scripts and places them in the dist folder.
- */
-exports.webpack = webpack;
-
-/**
- * Runs tslint against all ts and tsx files in src.
- */
-exports.lint = lint;
-
-/**
- * Runs tslint against all ts and tsx files in src and fixes the errors if possible.
- */
-exports.lintfix = lintfix;
+	// Deletes all contents in the dist folder.
+	// Note: You may need to kill explorer to release files.
+	// clean,
+}
